@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TIGA Docs — TIGA</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="../index.html" style="text-decoration:none;">
+    <div class="seal">T</div>
+    <div>
+      <div class="brand-name">TIGA</div>
+      <div class="brand-tag">CONSULTORÍA EDUCATIVA</div>
+    </div>
+  </a>
+  <nav class="top-links">
+    <a href="../index.html">Inicio</a>
+    <a href="../index.html#registro">Módulos</a>
+  </nav>
+</header>
+
+<div class="breadcrumb">
+  <a href="../index.html">TIGA</a><span class="sep">/</span>Docs
+</div>
+
+<section class="sub-hero">
+  <div class="eyebrow">TIGA-03 · Expediente documental</div>
+  <h1>Elige el documento. TIGA arma la estructura.</h1>
+  <p>Selecciona un tipo de documento a la izquierda y mira cómo se arma su vista previa a la derecha, lista para completar con los datos de tu institución.</p>
+</section>
+
+<div class="doc-flow">
+
+  <div class="doc-list" id="doc-list">
+    <div class="doc-option selected" data-title="Acta de Consejo Ejecutivo" data-code="DOC-01 · Directivos">
+      <span class="doc-name">Acta de Consejo Ejecutivo</span>
+      <span class="doc-meta">DOC-01</span>
+    </div>
+    <div class="doc-option" data-title="Informe de Rendición de Cuentas" data-code="DOC-02 · Directivos">
+      <span class="doc-name">Informe de Rendición de Cuentas</span>
+      <span class="doc-meta">DOC-02</span>
+    </div>
+    <div class="doc-option" data-title="Ficha de Incidente Disciplinario" data-code="DOC-03 · Inspección">
+      <span class="doc-name">Ficha de Incidente Disciplinario</span>
+      <span class="doc-meta">DOC-03</span>
+    </div>
+    <div class="doc-option" data-title="Planificación Curricular Anual" data-code="DOC-04 · Académico">
+      <span class="doc-name">Planificación Curricular Anual</span>
+      <span class="doc-meta">DOC-04</span>
+    </div>
+    <div class="doc-option" data-title="Comunicado a Representantes" data-code="DOC-05 · Comunicación">
+      <span class="doc-name">Comunicado a Representantes</span>
+      <span class="doc-meta">DOC-05</span>
+    </div>
+    <div class="doc-option" data-title="Oficio Institucional" data-code="DOC-06 · Distrito">
+      <span class="doc-name">Oficio Institucional</span>
+      <span class="doc-meta">DOC-06</span>
+    </div>
+  </div>
+
+  <div class="doc-preview">
+    <div class="doc-sheet" id="doc-sheet">
+      <div class="sheet-title" id="sheet-title">Acta de Consejo Ejecutivo</div>
+      <div class="sheet-sub" id="sheet-sub">DOC-01 · Directivos</div>
+      <div class="sheet-line med"></div>
+      <div class="sheet-line"></div>
+      <div class="sheet-line short"></div>
+      <div class="sheet-line med"></div>
+      <div class="sheet-line short"></div>
+      <button class="gen-btn" id="gen-btn">Generar documento</button>
+      <div class="gen-note" id="gen-note"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span>© 2026 TIGA · Consultoría Educativa</span>
+  <span>TIGA-03 · Docs</span>
+</footer>
+
+<script src="../js/main.js"></script>
+<script>
+  const options = document.querySelectorAll('#doc-list .doc-option');
+  const sheet = document.getElementById('doc-sheet');
+  const title = document.getElementById('sheet-title');
+  const sub = document.getElementById('sheet-sub');
+  const note = document.getElementById('gen-note');
+
+  options.forEach(opt => {
+    opt.addEventListener('click', () => {
+      options.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      title.textContent = opt.dataset.title;
+      sub.textContent = opt.dataset.code;
+      note.textContent = '';
+      sheet.style.animation = 'none';
+      sheet.offsetHeight;
+      sheet.style.animation = null;
+    });
+  });
+
+  document.getElementById('gen-btn').addEventListener('click', () => {
+    note.textContent = 'Documento generado — listo para descargar.';
+  });
+</script>
+</body>
+</html>
