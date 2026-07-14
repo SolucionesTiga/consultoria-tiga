@@ -112,6 +112,7 @@
 }
 .tiga-lock-overlay .lock-cta:hover{ transform:translateY(-1px); box-shadow:0 6px 14px rgba(176,141,62,0.35); }
 
+/* pequeño distintivo dorado permanente sobre tarjetas premium, visible también ya desbloqueadas */
 [data-requires="premium"]::before{
   content:'★ PREMIUM';
   position:absolute; top:0.6rem; right:0.7rem; z-index:6;
