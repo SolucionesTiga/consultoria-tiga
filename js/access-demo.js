@@ -16,6 +16,42 @@
     return location.pathname.indexOf('/pages/') !== -1 ? file : 'pages/' + file;
   }
 
+  function pathHome() {
+    return location.pathname.indexOf('/pages/') !== -1 ? '../index.html' : 'index.html';
+  }
+
+  function roleLabelOf(role) {
+    return role === 'docente' ? 'Docente' : 'Autoridad institucional';
+  }
+
+  function checkPageAccess(role) {
+    var required = document.body.getAttribute('data-page-role');
+    var existing = document.getElementById('tiga-page-gate');
+
+    if (!required || required === role) {
+      if (existing) existing.remove();
+      return;
+    }
+    if (existing) return; // ya se muestra, no duplicar
+
+    var gate = document.createElement('div');
+    gate.id = 'tiga-page-gate';
+    gate.className = 'tiga-page-gate';
+    gate.innerHTML =
+      '<div class="tiga-gate-card">' +
+      '<span class="tiga-gate-eyebrow">Acceso restringido</span>' +
+      '<h2>Este expediente es para perfil ' + roleLabelOf(required) + '</h2>' +
+      '<p>Est\u00E1s viendo el sistema como <strong>' + roleLabelOf(role) + '</strong>. Cambia de rol en el panel flotante para explorar este m\u00F3dulo, o vuelve al inicio.</p>' +
+      '<div class="tiga-gate-actions">' +
+      '<button type="button" class="tiga-gate-switch">Ver como ' + roleLabelOf(required) + '</button>' +
+      '<a href="' + pathHome() + '" class="tiga-gate-home">Volver al inicio</a>' +
+      '</div></div>';
+    document.body.appendChild(gate);
+    gate.querySelector('.tiga-gate-switch').addEventListener('click', function () {
+      setRole(required);
+    });
+  }
+
   function applyRoleVisibility(role) {
     var nodes = document.querySelectorAll('[data-role-only]');
     nodes.forEach(function (el) {
@@ -72,7 +108,9 @@
     document.body.setAttribute('data-access', access);
     applyRoleVisibility(role);
     applyAccessGating(access);
+    checkPageAccess(role);
     updateWidgetUI(role, access);
+    document.dispatchEvent(new CustomEvent('tiga:access-changed', { detail: { role: role, access: access } }));
   }
 
   function buildWidget() {

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TIGA Docs — TIGA</title>
 <link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/access-demo.css">
 </head>
 <body>
 
@@ -35,27 +36,27 @@
 <div class="doc-flow">
 
   <div class="doc-list" id="doc-list">
-    <div class="doc-option selected" data-title="Acta de Consejo Ejecutivo" data-code="DOC-01 · Directivos">
+    <div class="doc-option selected" data-role-only="autoridad" data-title="Acta de Consejo Ejecutivo" data-code="DOC-01 · Directivos">
       <span class="doc-name">Acta de Consejo Ejecutivo</span>
       <span class="doc-meta">DOC-01</span>
     </div>
-    <div class="doc-option" data-title="Informe de Rendición de Cuentas" data-code="DOC-02 · Directivos">
+    <div class="doc-option" data-role-only="autoridad" data-title="Informe de Rendición de Cuentas" data-code="DOC-02 · Directivos">
       <span class="doc-name">Informe de Rendición de Cuentas</span>
       <span class="doc-meta">DOC-02</span>
     </div>
-    <div class="doc-option" data-title="Ficha de Incidente Disciplinario" data-code="DOC-03 · Inspección">
+    <div class="doc-option" data-role-only="autoridad" data-title="Ficha de Incidente Disciplinario" data-code="DOC-03 · Inspección">
       <span class="doc-name">Ficha de Incidente Disciplinario</span>
       <span class="doc-meta">DOC-03</span>
     </div>
-    <div class="doc-option" data-title="Planificación Curricular Anual" data-code="DOC-04 · Académico">
+    <div class="doc-option" data-role-only="docente" data-title="Planificación Curricular Anual" data-code="DOC-04 · Académico">
       <span class="doc-name">Planificación Curricular Anual</span>
       <span class="doc-meta">DOC-04</span>
     </div>
-    <div class="doc-option" data-title="Comunicado a Representantes" data-code="DOC-05 · Comunicación">
+    <div class="doc-option" data-role-only="docente" data-title="Comunicado a Representantes" data-code="DOC-05 · Comunicación">
       <span class="doc-name">Comunicado a Representantes</span>
       <span class="doc-meta">DOC-05</span>
     </div>
-    <div class="doc-option" data-title="Oficio Institucional" data-code="DOC-06 · Distrito">
+    <div class="doc-option" data-role-only="autoridad" data-title="Oficio Institucional" data-code="DOC-06 · Distrito">
       <span class="doc-name">Oficio Institucional</span>
       <span class="doc-meta">DOC-06</span>
     </div>
@@ -83,6 +84,7 @@
 </footer>
 
 <script src="../js/main.js"></script>
+<script src="../js/access-demo.js"></script>
 <script>
   const options = document.querySelectorAll('#doc-list .doc-option');
   const sheet = document.getElementById('doc-sheet');
@@ -90,21 +92,37 @@
   const sub = document.getElementById('sheet-sub');
   const note = document.getElementById('gen-note');
 
+  function selectOption(opt) {
+    options.forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    title.textContent = opt.dataset.title;
+    sub.textContent = opt.dataset.code;
+    note.textContent = '';
+    sheet.style.animation = 'none';
+    sheet.offsetHeight;
+    sheet.style.animation = null;
+  }
+
   options.forEach(opt => {
     opt.addEventListener('click', () => {
-      options.forEach(o => o.classList.remove('selected'));
-      opt.classList.add('selected');
-      title.textContent = opt.dataset.title;
-      sub.textContent = opt.dataset.code;
-      note.textContent = '';
-      sheet.style.animation = 'none';
-      sheet.offsetHeight;
-      sheet.style.animation = null;
+      // el rol ya oculta con CSS los no permitidos, pero por seguridad evitamos seleccionar uno oculto
+      if (opt.classList.contains('tiga-role-hidden')) return;
+      selectOption(opt);
     });
   });
 
   document.getElementById('gen-btn').addEventListener('click', () => {
     note.textContent = 'Documento generado — listo para descargar.';
+  });
+
+  // Cuando cambia el rol en el widget flotante, si el documento seleccionado
+  // ya no corresponde a ese rol, selecciona automáticamente el primero visible.
+  document.addEventListener('tiga:access-changed', () => {
+    const current = document.querySelector('#doc-list .doc-option.selected');
+    if (!current || current.classList.contains('tiga-role-hidden')) {
+      const firstVisible = Array.from(options).find(o => !o.classList.contains('tiga-role-hidden'));
+      if (firstVisible) selectOption(firstVisible);
+    }
   });
 </script>
 </body>

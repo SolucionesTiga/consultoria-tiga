@@ -125,3 +125,46 @@
   .tiga-panel{ right:1rem; left:1rem; width:auto; bottom:5rem; }
   .tiga-fab-tag{ display:none; }
 }
+
+/* ---------- Bloqueo de página completa (data-page-role) ---------- */
+.tiga-page-gate{
+  position:fixed; inset:0; z-index:500;
+  background:rgba(31,41,55,0.55);
+  backdrop-filter:blur(3px);
+  display:flex; align-items:center; justify-content:center;
+  padding:2rem;
+}
+.tiga-gate-card{
+  background:var(--paper-raised);
+  border:1px solid var(--line);
+  border-radius:14px;
+  max-width:440px;
+  width:100%;
+  padding:2.4rem 2.2rem;
+  text-align:center;
+  box-shadow:0 30px 70px rgba(31,41,55,0.35);
+  animation:fadeSlideIn .3s ease;
+}
+.tiga-gate-eyebrow{
+  font-family:'IBM Plex Mono', monospace; font-size:0.68rem; letter-spacing:0.1em;
+  text-transform:uppercase; color:var(--oxblood);
+}
+.tiga-gate-card h2{
+  font-family:'Fraunces', serif; font-size:1.35rem; margin:0.7rem 0 0.9rem; color:var(--navy-deep);
+  line-height:1.25;
+}
+.tiga-gate-card p{
+  font-size:0.88rem; color:var(--ink-soft); line-height:1.6; margin:0 0 1.6rem;
+}
+.tiga-gate-card p strong{ color:var(--navy-deep); }
+.tiga-gate-actions{ display:flex; flex-direction:column; gap:0.7rem; }
+.tiga-gate-switch{
+  font-family:'IBM Plex Sans', sans-serif; font-weight:600; font-size:0.9rem;
+  background:var(--navy-deep); color:#fff; border:none; border-radius:6px;
+  padding:0.75rem 1rem; cursor:pointer; transition:transform .15s ease, background .15s ease;
+}
+.tiga-gate-switch:hover{ background:var(--navy); transform:translateY(-1px); }
+.tiga-gate-home{
+  font-family:'IBM Plex Mono', monospace; font-size:0.76rem; color:var(--ink-soft);
+  text-decoration:underline; text-underline-offset:2px;
+}
